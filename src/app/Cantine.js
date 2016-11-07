@@ -27,60 +27,17 @@ class Cantine extends Component {
         this.date = moment().locale('fr');
         this.menus = [];
         this.loadDayData();
-        this.initSwipe();
     }
 
-    initSwipe(){
-        document.addEventListener('touchstart', handleTouchStart, false);
-        document.addEventListener('touchmove', handleTouchMove, false);
-
-        var xDown = null;
-        var yDown = null;
-
-        function handleTouchStart(evt) {
-            xDown = evt.touches[0].clientX;
-            yDown = evt.touches[0].clientY;
-        };
-
-        function handleTouchMove(evt) {
-            if ( ! xDown || ! yDown ) {
-                return;
-            }
-
-            var xUp = evt.touches[0].clientX;
-            var yUp = evt.touches[0].clientY;
-
-            var xDiff = xDown - xUp;
-            var yDiff = yDown - yUp;
-
-            if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
-                if ( xDiff > 0 ) {
-                    console.log("left")
-                } else {
-                    console.log("right")
-                }
-            } else {
-                if ( yDiff > 0 ) {
-                    /* up swipe */
-                } else {
-                    /* down swipe */
-                }
-            }
-            /* reset values */
-            xDown = null;
-            yDown = null;
-        };
+    loadDayData(){
+        fetch("http://192.168.1.10:3000/menus/all", {method: "GET"})
+        .then((response) => {
+            return response.json().then((json) => {
+                    this.menu = json[0];
+                    this.forceUpdate();
+                });
+        },error => console.log("ERROR : "+error));
     }
-
-        loadDayData(){
-            fetch("http://192.168.1.10:3000/menus/all", {method: "GET"})
-            .then((response) => {
-                return response.json().then((json) => {
-                        this.menu = json[0];
-                        this.forceUpdate();
-                    });
-            },error => console.log("ERROR : "+error));
-        }
 
 
     render() {
