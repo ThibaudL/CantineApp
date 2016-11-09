@@ -9,14 +9,14 @@ export default class Menu extends Component {
     }
 
 
-
-
     render() {
         var theme = 'paperTeal';
         const { date,menu } = this.props;
 
         var valueMenu = (type) => {
-            return menu ? menu[type] : "";
+            if(menu && menu[type] && menu[type].libelle){
+                return <Text>{type + ' - ' + menu[type].libelle}</Text>;
+            }
         }
 
         return (
@@ -29,10 +29,11 @@ export default class Menu extends Component {
                         <Text style={[TYPO.paperFontHeadline, COLOR.paperGrey50]}>{date.format('dddd Do MMMM')}</Text>
                     </Card.Media>
                     <Card.Body>
-                        <Text>{valueMenu('entree')}</Text>
-                        <Text>{valueMenu('plat')}</Text>
-                        <Text>{valueMenu('fromage')}</Text>
-                        <Text>{valueMenu('dessert')}</Text>
+                        {valueMenu('entree')}
+                        {valueMenu('viande')}
+                        {valueMenu('legume')}
+                        {valueMenu('fromage')}
+                        {valueMenu('dessert')}
                     </Card.Body>
                 </Card>
             </View>
