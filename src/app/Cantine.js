@@ -56,7 +56,7 @@ class Cantine extends Component {
 
     loadDayData(){
         storage.load({
-            key: this.date.valueOf(),
+            key: ""+this.date.valueOf(),
             autoSync: true,
             syncInBackground: true
         }).then(ret => {
@@ -68,7 +68,7 @@ class Cantine extends Component {
                 return response.json().then((json) => {
                         this.menu = json[0];
                         storage.save({
-                            key: this.date.valueOf(),   // Note: Do not use underscore("_") in key!
+                            key: ""+this.date.valueOf(),   // Note: Do not use underscore("_") in key!
                             rawData: json[0]
                         });
                         this.forceUpdate();
